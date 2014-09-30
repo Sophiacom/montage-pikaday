@@ -1,0 +1,22 @@
+{
+    "name": "montage-pikaday",
+    "author": {
+        "name" : "Yoann Canal"
+    },
+    "version": "0.1.0",
+    "dependencies": {
+        "montage": "~0.14.0",
+        "native": "~0.2.0",
+        "montage-moment": "Sophiacom/montage-moment"
+    },
+    "devDependencies": {
+        "montage-testing": "~0.4.0"
+    },
+    "exclude": [
+        "run-tests.html",
+        "test"
+    ],
+    "bundle": [
+        "ui/pikaday.reel"
+    ]
+}

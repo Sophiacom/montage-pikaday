@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+    </title>
+    <link rel="stylesheet" type="text/css" href="pikaday.css">
+    <script type="text/montage-serialization">
+        {
+            "owner": {
+                "properties": {
+                    "element": {"#": "owner"}
+                },
+                "bindings": {
+                    "selectedMonth": {"<->": "@monthSelect.value"},
+                    "selectedYear": {"<->": "@yearSelect.value"}
+                }
+            },
+
+            "dateField": {
+                "prototype": "native/ui/input-text.reel",
+                "properties": {
+                    "element": {"#": "dateField"}
+                },
+                "bindings": {
+                    "placeholder": {"<-": "@owner.format"},
+                    "value": {
+                        "<->": "@owner.value",
+                        "converter": {"@": "momentConverter"}
+                    }
+                }
+            },
+
+            "momentConverter": {
+                "prototype": "montage-moment/core/moment-converter",
+                "bindings": {
+                    "format": {"<-": "@owner.format"}
+                }
+            },
+
+            "calendar": {
+                "prototype": "montage/ui/overlay.reel",
+                "properties": {
+                    "element": {"#": "calendar"},
+                    "delegate": {"@": "owner"}
+                }
+            },
+
+            "monthSelect": {
+                "prototype": "native/ui/select.reel",
+                "properties": {
+                    "element": {"#": "monthSelect"},
+                    "textPropertyPath": "text",
+                    "valuePropertyPath": "value"
+                },
+                "bindings": {
+                    "content": {"<-": "@owner.months"}
+                }
+            },
+            "selectedMonth": {
+                "prototype": "montage/ui/text.reel",
+                "properties": {
+                    "element": {"#": "selectedMonth"}
+                },
+                "bindings": {
+                    "value": {"<-": "@owner.months[@owner.selectedMonth].text"}
+                }
+            },
+            "yearSelect": {
+                "prototype": "native/ui/select.reel",
+                "properties": {
+                    "element": {"#": "yearSelect"}
+                },
+                "bindings": {
+                    "content": {"<-": "@owner.years"}
+                }
+            },
+            "selectedYear": {
+                "prototype": "montage/ui/text.reel",
+                "properties": {
+                    "element": {"#": "selectedYear"}
+                },
+                "bindings": {
+                    "value": {"<-": "@owner.selectedYear"}
+                }
+            },
+            "nextButton": {
+                "prototype": "native/ui/button.reel",
+                "properties": {
+                    "element": {"#": "nextButton"}
+                },
+                "listeners": [{
+                    "type": "action",
+                    "capture": true,
+                    "listener": {"@": "owner"}
+                }],
+                "localizations": {
+                    "label": {
+                        "key": "datepicker.label.next-month"
+                    }
+                }
+            },
+            "prevButton": {
+                "prototype": "native/ui/button.reel",
+                "properties": {
+                    "element": {"#": "prevButton"}
+                },
+                "listeners": [{
+                    "type": "action",
+                    "capture": true,
+                    "listener": {"@": "owner"}
+                }],
+                "localizations": {
+                    "label": {
+                        "key": "datepicker.label.previous-month"
+                    }
+                }
+            },
+
+            "pikaThead": {
+                "prototype": "montage/ui/repetition.reel",
+                "properties": {
+                    "element": {"#": "pikaThead"}
+                },
+                "bindings": {
+                    "content": {"<-": "@owner.weekdays"}
+                }
+            },
+            "pikaTheadAbbr": {
+                "prototype": "montage/ui/text.reel",
+                "properties": {
+                    "element": {"#": "pikaTheadAbbr"}
+                },
+                "bindings": {
+                    "element.title": {"<-": "@pikaThead:iteration.object.title"},
+                    "value": {"<-": "@pikaThead:iteration.object.abbr"}
+                }
+            },
+
+            "pikaDayRows": {
+                "prototype": "montage/ui/repetition.reel",
+                "properties": {
+                    "element": {"#": "pikaDayRows"}
+                },
+                "bindings": {
+                    "content": {"<-": "@owner.rows"}
+                }
+            },
+            "pikaDayRow": {
+                "prototype": "montage/ui/repetition.reel",
+                "properties": {
+                    "element": {"#": "pikaDayRow"}
+                },
+                "bindings": {
+                    "content": {"<-": "@pikaDayRows:iteration.object"}
+                }
+            },
+            "pikaDay": {
+                "prototype": "native/ui/button.reel",
+                "properties": {
+                    "element": {"#": "pikaDay"}
+                },
+                "bindings": {
+                    "classList.has('pika-empty')": { "<-": "!@pikaDayRow:iteration.object.defined()" },
+                    "label": {"<-": "@pikaDayRow:iteration.object.day"},
+                    "detail.selectedDay": {"<-": "@pikaDayRow:iteration.object"}
+                },
+                "listeners": [{
+                   "type": "action",
+                   "listener": {"@": "owner"},
+                   "capture": true
+               }]
+           }
+       }
+   </script>
+</head>
+<body>
+    <div data-montage-id="owner" class="Pikaday  input-group">
+        <span type="button" class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        <input data-montage-id="dateField" type="text" class="form-control">
+
+        <div data-montage-id="calendar" class="Pikaday pika-single is-bound">
+            <div class="pika-lendar">
+
+                <div class="pika-title">
+                    <div class="pika-label">
+                        <div data-montage-id="selectedMonth"></div>
+                        <select data-montage-id="monthSelect" class="pika-select pika-select-month"></select>
+                    </div>
+                    <div class="pika-label">
+                        <div data-montage-id="selectedYear"></div>
+                        <select data-montage-id="yearSelect" class="pika-select pika-select-month"></select>
+                    </div>
+                    <button data-montage-id="prevButton" class="pika-prev"></button>
+                    <button data-montage-id="nextButton" class="pika-next"></button>
+                </div>
+
+                <div  cellpadding="0" cellspacing="0" class="pika-table">
+                    <div data-montage-id="pikaThead" class="pika-row">
+                        <div class="pika-cell">
+                            <abbr data-montage-id="pikaTheadAbbr"></abbr>
+                        </div>
+                    </div>
+
+                    <div data-montage-id="pikaDayRows" class="pika-rows">
+                        <div data-montage-id="pikaDayRow" class="pika-row">
+                            <div class="pika-cell">
+                                <div data-montage-id="pikaDay" class="pika-button pika-day"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
