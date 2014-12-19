@@ -46,6 +46,7 @@
     maxDate: { value: null },
 
     value: { value: null },
+    currentDate: { value: Moment() },
 
     _firstDayOfWeek: { value: null },
 
@@ -244,9 +245,10 @@
                     var cell = (row * 7) + col;
 
                     if(cell > before && cell <= before + days) {
-                        var currentCell = {day: cell - before, month: this.selectedMonth, year: this.selectedYear, active: true};
                         var currentDay = Moment([this.selectedYear, this.selectedMonth, cell - before]);
+                        var currentCell = { day: cell - before, month: this.selectedMonth, year: this.selectedYear, active: true };
 
+                        currentCell.value = currentDay;
                         if (this.maxDate)
                             currentCell.active = !currentDay.isAfter(this.maxDate);
                         if (this.minDate)

@@ -166,7 +166,9 @@
                     "label": {"<-": "@pikaDayRow:iteration.object.day"},
                     "detail.selectedDay": {"<-": "@pikaDayRow:iteration.object"},
                     "enabled": {"<-": "@pikaDayRow:iteration.object.active"},
-                    "classList.has('is-disabled')": { "<-": "!@pikaDayRow:iteration.object.active" }
+                    "classList.has('is-disabled')": { "<-": "!@pikaDayRow:iteration.object.active" },
+                    "classList.has('is-selected')": { "<-": "@pikaDayRow:iteration.object.value.isSame(@owner.value, 'day')" },
+                    "classList.has('is-today')": { "<-": "@pikaDayRow:iteration.object.value.isSame(@owner.currentDate, 'day')" }
                 },
                 "listeners": [{
                    "type": "action",
