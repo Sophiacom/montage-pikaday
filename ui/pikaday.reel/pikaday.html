@@ -164,7 +164,9 @@
                 "bindings": {
                     "classList.has('pika-empty')": { "<-": "!@pikaDayRow:iteration.object.defined()" },
                     "label": {"<-": "@pikaDayRow:iteration.object.day"},
-                    "detail.selectedDay": {"<-": "@pikaDayRow:iteration.object"}
+                    "detail.selectedDay": {"<-": "@pikaDayRow:iteration.object"},
+                    "enabled": {"<-": "@pikaDayRow:iteration.object.active"},
+                    "classList.has('is-disabled')": { "<-": "!@pikaDayRow:iteration.object.active" }
                 },
                 "listeners": [{
                    "type": "action",

@@ -175,12 +175,12 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     color: #999;
 }
 
-.Pikaday .is-today .pika-button {
+.Pikaday .is-today.pika-button {
     color: #33aaff;
     font-weight: bold;
 }
 
-.Pikaday .is-selected .pika-button {
+.Pikaday .is-selected.pika-button {
     color: #fff;
     font-weight: bold;
     background: #33aaff;
@@ -188,7 +188,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     border-radius: 3px;
 }
 
-.Pikaday .is-disabled .pika-button {
+.Pikaday .is-disabled.pika-button {
     pointer-events: none;
     cursor: default;
     color: #999;

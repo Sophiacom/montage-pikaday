@@ -21,6 +21,8 @@
 
             this.years = [];
             this.rows = [];
+
+            //this.maxDate = Moment();
         }
     },
 
@@ -39,6 +41,9 @@
     selectedYear: { value: null },
     selectedMonth: { value: null },
     selectedDay: { value: null },
+
+    minDate: { value: null },
+    maxDate: { value: null },
 
     value: { value: null },
 
@@ -89,6 +94,9 @@
 
             this.addPathChangeListener("selectedMonth", this, "updateMonth");
             this.addPathChangeListener("selectedYear", this, "updateYear");
+
+            this.addPathChangeListener("minDate", this, "updateCells");           
+            this.addPathChangeListener("maxDate", this, "updateCells");            
         }
     },
 
@@ -101,6 +109,12 @@
             this.templateObjects.dateField.element.removeEventListener("focus", this, false);
 
             this.super();
+        }
+    },
+
+    updateCells: {
+        value: function() {
+            this.needsDraw = true;
         }
     },
 
@@ -229,9 +243,17 @@
                 for(var col = 0; col < 7; col++) {
                     var cell = (row * 7) + col;
 
-                    if(cell > before && cell <= before + days)
-                        this.rows[row].push({day: cell - before, month: this.selectedMonth, year: this.selectedYear});
-                    else
+                    if(cell > before && cell <= before + days) {
+                        var currentCell = {day: cell - before, month: this.selectedMonth, year: this.selectedYear, active: true};
+                        var currentDay = Moment([this.selectedYear, this.selectedMonth, cell - before]);
+
+                        if (this.maxDate)
+                            currentCell.active = !currentDay.isAfter(this.maxDate);
+                        if (this.minDate)
+                            currentCell.active = !currentDay.isBefore(this.minDate) && currentCell.active;
+
+                        this.rows[row].push(currentCell);
+                    } else
                         this.rows[row].push(null);
                 }
             }
