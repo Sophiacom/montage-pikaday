@@ -31,6 +31,8 @@
     position: { value: 'bottom left'},
     format: { value: null },
 
+    enabled: { value: true },
+
     // number of years either side, or array of upper/lower range
     yearRange: { value: 5 },
 

@@ -28,7 +28,8 @@
                         "converter": {"@": "momentConverter"}
                     },
                     "classList.has('input-sm')": {"<-": "@owner.size == 'small'"},
-                    "classList.has('input-lg')": {"<-": "@owner.size == 'large'"}
+                    "classList.has('input-lg')": {"<-": "@owner.size == 'large'"},
+                    "disabled": {"<-": "!@owner.enabled"}
                 }
             },
 
