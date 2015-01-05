@@ -19,10 +19,8 @@
             this._pressComposer = new PressComposer();
             this._pressComposer.lazyLoad = true;
 
-            this.years = [];
+            this._years = [];
             this.rows = [];
-
-            //this.maxDate = Moment();
         }
     },
 
@@ -36,19 +34,19 @@
     // number of years either side, or array of upper/lower range
     yearRange: { value: 5 },
 
-    years: { value: null },
-    months: { value: null },
-    weekdays: { value: null },
+    _years: { value: null },
+    _months: { value: null },
+    _weekdays: { value: null },
 
-    selectedYear: { value: null },
-    selectedMonth: { value: null },
-    selectedDay: { value: null },
+    _selectedYear: { value: null },
+    _selectedMonth: { value: null },
+    _selectedDay: { value: null },
 
     minDate: { value: null },
     maxDate: { value: null },
 
     value: { value: null },
-    currentDate: { value: Moment() },
+    _currentDate: { value: Moment() },
 
     _firstDayOfWeek: { value: null },
 
@@ -56,17 +54,17 @@
         value: function() {
             this._firstDayOfWeek = Moment.localeData()._week.dow;
 
-            this.months = Moment.months().map(function(month, index) {
+            this._months = Moment.months().map(function(month, index) {
                 return {
                     text: month,
                     value: index
                 };
             });
 
-            this.weekdays = [];
+            this._weekdays = [];
             for(var i = 0; i < 7; i++) {
                 var dayOfWeek = (this._firstDayOfWeek + i) % 7;
-                this.weekdays.push({
+                this._weekdays.push({
                     title: Moment.weekdays()[dayOfWeek],
                     abbr: Moment.weekdaysShort()[dayOfWeek]
                 })
@@ -86,27 +84,27 @@
 
                 var initMoment = this.value?this.value:Moment();
                 for(var i = initMoment.year() - this.yearRange; i <= initMoment.year() + this.yearRange; i++)
-                    this.years.push({text: i.toString(), value: i});
+                    this._years.push({text: i.toString(), value: i});
 
-                this.selectedMonth = initMoment.month();
-                this.selectedYear = initMoment.year();
+                this._selectedMonth = initMoment.month();
+                this._selectedYear = initMoment.year();
             }
 
             this.templateObjects.dateField.element.addEventListener("focus", this, false);
             this._pressComposer.addEventListener("pressStart", this, false);
 
-            this.addPathChangeListener("selectedMonth", this, "updateMonth");
-            this.addPathChangeListener("selectedYear", this, "updateYear");
+            this.addPathChangeListener("_selectedMonth", this, "updateMonth");
+            this.addPathChangeListener("_selectedYear", this, "updateYear");
 
-            this.addPathChangeListener("minDate", this, "updateCells");           
-            this.addPathChangeListener("maxDate", this, "updateCells");            
+            this.addPathChangeListener("minDate", this, "updateCells");
+            this.addPathChangeListener("maxDate", this, "updateCells");
         }
     },
 
     exitDocument: {
         value: function() {
-            this.removePathChangeListener("selectedYear", this);
-            this.removePathChangeListener("selectedMonth", this);
+            this.removePathChangeListener("_selectedYear", this);
+            this.removePathChangeListener("_selectedMonth", this);
 
             this._pressComposer.removeEventListener("pressStart", this, false);
             this.templateObjects.dateField.element.removeEventListener("focus", this, false);
@@ -123,12 +121,12 @@
 
     updateMonth: {
         value: function() {
-            if(this.selectedMonth < 0) {
-                this.selectedYear--;
-                this.selectedMonth += 12;
-            } else if(this.selectedMonth >= 12) {
-                this.selectedYear++;
-                this.selectedMonth -= 12;
+            if(this._selectedMonth < 0) {
+                this._selectedYear--;
+                this._selectedMonth += 12;
+            } else if(this._selectedMonth >= 12) {
+                this._selectedYear++;
+                this._selectedMonth -= 12;
             }
 
             this.needsDraw = true;
@@ -137,13 +135,13 @@
 
     updateYear: {
         value: function() {
-            if(this.selectedYear === this.years[this.yearRange].value)
+            if(this._selectedYear === this._years[this.yearRange].value)
                 return;
 
             for(var i = 0; i <= 2 * this.yearRange; i++) {
-                var year = this.selectedYear - this.yearRange + i;
-                this.years[i].text = year.toString();
-                this.years[i].value = year;
+                var year = this._selectedYear - this.yearRange + i;
+                this._years[i].text = year.toString();
+                this._years[i].value = year;
             }
 
             this.needsDraw = true;
@@ -175,19 +173,19 @@
 
     captureNextButtonAction: {
         value: function() {
-            this.selectedMonth++;
+            this._selectedMonth++;
         }
     },
     capturePrevButtonAction: {
         value: function() {
-            this.selectedMonth--;
+            this._selectedMonth--;
         }
     },
 
     capturePikaDayAction: {
         value: function(event) {
             var day = event.detail.selectedDay;
-            this.selectedDay = day.day;
+            this._selectedDay = day.day;
 
             if(this.value)
                 var baseMoment = this.value.clone();
@@ -230,7 +228,7 @@
 
     draw: {
         value: function() {
-            var month = Moment().year(this.selectedYear).month(this.selectedMonth).startOf('month');
+            var month = Moment().year(this._selectedYear).month(this._selectedMonth).startOf('month');
             // looks like month.day() starts at 1: add 6 to have a positive % 7
             var before = (month.day() - this._firstDayOfWeek + 6) % 7;
             var days = month.daysInMonth();
@@ -247,8 +245,8 @@
                     var cell = (row * 7) + col;
 
                     if(cell > before && cell <= before + days) {
-                        var currentDay = Moment([this.selectedYear, this.selectedMonth, cell - before]);
-                        var currentCell = { day: cell - before, month: this.selectedMonth, year: this.selectedYear, active: true };
+                        var currentDay = Moment([this._selectedYear, this._selectedMonth, cell - before]);
+                        var currentCell = { day: cell - before, month: this._selectedMonth, year: this._selectedYear, active: true };
 
                         currentCell.value = currentDay;
                         if (this.maxDate)
