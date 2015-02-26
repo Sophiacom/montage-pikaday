@@ -199,13 +199,13 @@
 
     willPositionOverlay: {
         value: function(overlay, position) {
-            var field = this.templateObjects.dateField.element;
-            var width = this.element.offsetWidth;
-            var height = this.element.offsetHeight;
+            var width = overlay.element.offsetWidth;
+            var height = overlay.element.offsetHeight;
             var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
             var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
             var scrollTop = window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
 
+            var field = this.templateObjects.dateField.element;
             var clientRect = field.getBoundingClientRect();
             var left = clientRect.left + window.pageXOffset;
             var top = clientRect.bottom + window.pageYOffset;
@@ -213,6 +213,7 @@
             // default position is bottom & left
             var topRequested = this.position.indexOf('top') > -1;
             var rightRequested = this.position.indexOf('right') > -1;
+
             if (left + width > viewportWidth ||
                 (rightRequested && left - width + field.offsetWidth > 0)) {
                 left = left - width + field.offsetWidth;
