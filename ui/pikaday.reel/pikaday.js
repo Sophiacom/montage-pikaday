@@ -103,6 +103,9 @@
 
     exitDocument: {
         value: function() {
+            this.removePathChangeListener("maxDate", this);
+            this.removePathChangeListener("minDate", this);
+
             this.removePathChangeListener("_selectedYear", this);
             this.removePathChangeListener("_selectedMonth", this);
 
