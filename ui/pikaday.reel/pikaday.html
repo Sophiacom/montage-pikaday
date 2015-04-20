@@ -12,7 +12,9 @@
                 },
                 "bindings": {
                     "_selectedMonth": {"<->": "@monthSelect.value"},
-                    "_selectedYear": {"<->": "@yearSelect.value"}
+                    "_selectedYear": {"<->": "@yearSelect.value"},
+                    "classList.has('input-group-sm')": {"<-": "@owner.size == 'small'"},
+                    "classList.has('input-group-lg')": {"<-": "@owner.size == 'large'"}
                 }
             },
 
@@ -27,8 +29,6 @@
                         "<->": "@owner.value",
                         "converter": {"@": "momentConverter"}
                     },
-                    "classList.has('input-sm')": {"<-": "@owner.size == 'small'"},
-                    "classList.has('input-lg')": {"<-": "@owner.size == 'large'"},
                     "disabled": {"<-": "!@owner.enabled"}
                 }
             },
