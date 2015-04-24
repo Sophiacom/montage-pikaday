@@ -98,11 +98,15 @@
 
             this.addPathChangeListener("minDate", this, "updateCells");
             this.addPathChangeListener("maxDate", this, "updateCells");
+
+            this.addPathChangeListener("format", this, "updateValue");
         }
     },
 
     exitDocument: {
         value: function() {
+            this.removePathChangeListener("format", this);
+
             this.removePathChangeListener("maxDate", this);
             this.removePathChangeListener("minDate", this);
 
@@ -113,6 +117,12 @@
             this.templateObjects.dateField.element.removeEventListener("focus", this, false);
 
             this.super();
+        }
+    },
+
+    updateValue: {
+        value: function() {
+            this.dispatchOwnPropertyChange("value", this.value, false);
         }
     },
 
