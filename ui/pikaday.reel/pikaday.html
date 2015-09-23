@@ -11,15 +11,13 @@
                     "element": {"#": "owner"}
                 },
                 "bindings": {
-                    "_selectedMonth": {"<->": "@monthSelect.value"},
-                    "_selectedYear": {"<->": "@yearSelect.value"},
                     "classList.has('input-group-sm')": {"<-": "@owner.size == 'small'"},
                     "classList.has('input-group-lg')": {"<-": "@owner.size == 'large'"}
                 }
             },
 
             "dateField": {
-                "prototype": "native/ui/input-text.reel",
+                "prototype": "montage/ui/text-field.reel",
                 "properties": {
                     "element": {"#": "dateField"}
                 },
@@ -48,17 +46,6 @@
                 }
             },
 
-            "monthSelect": {
-                "prototype": "native/ui/select.reel",
-                "properties": {
-                    "element": {"#": "monthSelect"},
-                    "textPropertyPath": "text",
-                    "valuePropertyPath": "value"
-                },
-                "bindings": {
-                    "content": {"<-": "@owner.months"}
-                }
-            },
             "selectedMonth": {
                 "prototype": "montage/ui/text.reel",
                 "properties": {
@@ -66,15 +53,6 @@
                 },
                 "bindings": {
                     "value": {"<-": "@owner._months[@owner._selectedMonth % 12].text"}
-                }
-            },
-            "yearSelect": {
-                "prototype": "native/ui/select.reel",
-                "properties": {
-                    "element": {"#": "yearSelect"}
-                },
-                "bindings": {
-                    "content": {"<-": "@owner.years"}
                 }
             },
             "selectedYear": {
@@ -87,7 +65,7 @@
                 }
             },
             "nextButton": {
-                "prototype": "native/ui/button.reel",
+                "prototype": "montage/ui/button.reel",
                 "properties": {
                     "element": {"#": "nextButton"}
                 },
@@ -98,7 +76,7 @@
                 }]
             },
             "prevButton": {
-                "prototype": "native/ui/button.reel",
+                "prototype": "montage/ui/button.reel",
                 "properties": {
                     "element": {"#": "prevButton"}
                 },
@@ -148,7 +126,7 @@
                 }
             },
             "pikaDay": {
-                "prototype": "native/ui/button.reel",
+                "prototype": "montage/ui/button.reel",
                 "properties": {
                     "element": {"#": "pikaDay"}
                 },
@@ -183,11 +161,9 @@
                 <div class="pika-title">
                     <div class="pika-label">
                         <div data-montage-id="selectedMonth"></div>
-                        <select data-montage-id="monthSelect" class="pika-select pika-select-month"></select>
                     </div>
                     <div class="pika-label">
                         <div data-montage-id="selectedYear"></div>
-                        <select data-montage-id="yearSelect" class="pika-select pika-select-month"></select>
                     </div>
                     <button data-montage-id="prevButton" type="button" class="pika-prev"></button>
                     <button data-montage-id="nextButton" type="button" class="pika-next"></button>

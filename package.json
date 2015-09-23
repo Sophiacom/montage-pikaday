@@ -5,8 +5,7 @@
     },
     "version": "0.1.0",
     "dependencies": {
-        "montage": "~0.14.0",
-        "native": "~0.2.0",
+        "montage": "~0.15.0",
         "montage-moment": "Sophiacom/montage-moment"
     },
     "devDependencies": {
